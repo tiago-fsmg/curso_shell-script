@@ -17,6 +17,9 @@
 #   v0.1 15/07/2019,Tiago:
 #       - Início do programa
 #
+#    v0.2 15/07/2019, Tiago:
+#        - Adicionado Cor nas mensagens de erro
+#
 #------------------------------------------------------------------------- #
 # Testado em:
 #   bash 4.4.12
@@ -31,7 +34,8 @@ PORTA=8000
 PASTA=$(pwd)
 VERSAO=V0.1
 CHAVE_DEBUG=0
-AJUDA="
+ESTILO_ERRO="\033[31;1;5m"
+AJUDA="\033[32m
  $(basename $0) - [OPCOES]
 
  	-a - Difine addres de acesso.
@@ -40,13 +44,13 @@ AJUDA="
 	-p - Define porta de execucao.
 	-r - Define Pasta root do projeto.
 	-v - Vercao.
-
 "
+
 # ------------------------------------------------------------------------ #
 
 #- ------------------------------ TESTES ----------------------------------------- #
 
-[ "$(dpkg --list | grep php | wc -l)" -eq "0" ] && echo "----PHP nao esta instalado----" && exit 1
+[ "$(dpkg --list | grep php | wc -l)" -eq "0" ] && echo -e "${ESTILO_ERRO}""----PHP nao esta instalado----" && exit 1
 
 # ------------------------------------------------------------------------ #
 
@@ -75,7 +79,7 @@ do
   case "$1" in
 	  -a) [ $2 ] && IP=$2 && shift			;;
 	  -d) CHAVE_DEBUG=1		 	          	;;
-	  -h) echo "$AJUDA" && exit 0			  ;;
+	  -h) echo -e "$AJUDA" && exit 0			  ;;
 	  -p) [ $2 ] && PORTA=$2 && shift		;;
 	  -r) [ $2 ] && PASTA=$2 && shift		;;
 	  -v) echo "$VERSAO" && exit 0			;;
